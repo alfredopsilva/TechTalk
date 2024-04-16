@@ -5,6 +5,8 @@
         "plugin:tailwindcss/recommended"
     ],
     "rules": {
+        "semi": "off",
+        "quotes": "off",
         "indent": ["error", 4]
     }
 }
