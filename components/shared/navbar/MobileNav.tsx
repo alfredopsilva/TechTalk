@@ -44,7 +44,7 @@ const NavContent = () => {
                             />
                             <p
                                 className={`${
-                                    isActive ? "base-bold" : "medium-bold"
+                                    isActive ? "base-bold" : "base-medium"
                                 }`}
                             >
                                 {item.label}
