@@ -37,7 +37,7 @@ export default function RootLayout({
                 <ClerkProvider
                     appearance={{
                         elements: {
-                            formButtomPrimary: "primary-gradient",
+                            formButtonPrimary: "primary-gradient",
                             footerActionLink:
                                 "primary-text-gradient hover:text-primary-500",
                         },
