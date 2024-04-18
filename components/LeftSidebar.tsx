@@ -71,7 +71,10 @@ const LeftSidebar = () => {
                             height={24}
                             alt="logout"
                         />
-                        <Button className="p-0" onClick={handleLogout}>
+                        <Button
+                            className="p-0 max-lg:hidden"
+                            onClick={handleLogout}
+                        >
                             Log Out
                         </Button>
                     </Link>
