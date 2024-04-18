@@ -66,13 +66,14 @@ const LeftSidebar = () => {
                         className="small-medium flex max-h-[56px] max-w-[218px] items-center gap-2 rounded-lg  px-4 py-3 shadow-none"
                     >
                         <Image
-                            src="/assets/icons/close.svg"
+                            src="/assets/icons/logout.svg"
                             width={24}
                             height={24}
                             alt="logout"
+                            className="invert-colors2"
                         />
                         <Button
-                            className="p-0 max-lg:hidden"
+                            className="text-dark400_light900 p-0 max-lg:hidden"
                             onClick={handleLogout}
                         >
                             Log Out
