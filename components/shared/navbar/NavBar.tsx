@@ -20,7 +20,13 @@ const NavBar = () => {
                     Dev <span className="text-primary-500">Flow</span>
                 </p>
             </Link>
-            <GlobalSearch />
+            <GlobalSearch
+                route="/"
+                iconPosition="left"
+                imgSrc="/assets/icons/search.svg"
+                placeholder="Search globally"
+                otherClasses="flex-1"
+            />
             <div className="flex-between gap-5 ">
                 <Theme />
                 <SignedIn>

@@ -1,10 +1,9 @@
-import HomeFilters from "@/components/home/HomeFilters";
-import Filter from "@/components/shared/Filter";
 import LocalSearchbar from "@/components/shared/LocalSearchbar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/contants/filters";
 import Link from "next/link";
 import React from "react";
+import Filter from "@/components/shared/Filter";
 
 const Home = () => {
     return (

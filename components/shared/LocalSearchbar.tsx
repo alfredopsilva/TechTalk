@@ -1,7 +1,12 @@
 "use client";
+<<<<<<< HEAD
 import React from "react";
 import { Input } from "../ui/input";
+=======
+import { Input } from "@/components/ui/input";
+>>>>>>> cde3734a6c50e0f7df09277d37a5e4e96e5a1e04
 import Image from "next/image";
+import React from "react";
 
 interface CustomInputProps {
     route: string;
