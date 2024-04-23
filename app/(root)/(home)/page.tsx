@@ -10,7 +10,9 @@ const Home = () => {
     return (
         <>
             <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
-                <h1 className="h1-bold text-dark100_light900">All Questions</h1>
+                <h1 className="h1-bold text-dark100_light900">
+                    All To Questions
+                </h1>
 
                 <Link
                     href={"/askquestion"}
