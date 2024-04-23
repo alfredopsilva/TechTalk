@@ -1,16 +1,18 @@
-
 import LocalSearchbar from "@/components/shared/LocalSearchbar";
 import { Button } from "@/components/ui/button";
+import { HomePageFilters } from "@/contants/filters";
 import Link from "next/link";
 import React from "react";
 import Filter from "@/components/shared/Filter";
+import HomeFilters from "@/components/home/HomeFilters";
 
 const Home = () => {
     return (
         <>
             <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
-                <h1 className="h1-bold text-dark100_light900">All Questions</h1>
-
+                <h1 className="h1-bold text-dark100_light900">
+                    All To Questions
+                </h1>
 
                 <Link
                     href={"/askquestion"}
@@ -29,9 +31,13 @@ const Home = () => {
                     otherClasses="flex-1"
                     imgSrc="/assets/icons/search.svg"
                 />
-
-                <Filter />
+                <Filter
+                    filters={HomePageFilters}
+                    otherClasses="min-h-[56px] sm:min-w-[170px]"
+                    containerClasses="hidden max-md:flex"
+                />
             </div>
+            <HomeFilters />
         </>
     );
 };
