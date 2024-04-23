@@ -4,6 +4,7 @@ import { HomePageFilters } from "@/contants/filters";
 import Link from "next/link";
 import React from "react";
 import Filter from "@/components/shared/Filter";
+import HomeFilters from "@/components/home/HomeFilters";
 
 const Home = () => {
     return (
