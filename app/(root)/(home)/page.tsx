@@ -5,6 +5,39 @@ import Link from "next/link";
 import React from "react";
 import Filter from "@/components/shared/Filter";
 import HomeFilters from "@/components/home/HomeFilters";
+import Card from "@/components/home/Card";
+import NoResult from "@/components/shared/NoResult";
+
+const questions = [
+    // {
+    //     _id: 1,
+    //     title: "Cascading Deletes in SQLAlchemy?",
+    //     tags: [
+    //         { _id: 1, name: "python" },
+    //         { _id: 2, name: "MySQL" },
+    //         { _id: 3, name: "Java" },
+    //     ],
+    //     author: "John Doe",
+    //     upvotes: 10,
+    //     views: 100,
+    //     answers: 2,
+    //     createdAt: "2021-09-01T12:00:00.000z",
+    // },
+    // {
+    //     _id: 1,
+    //     title: "Cascading Deletes in SQLAlchemy?",
+    //     tags: [
+    //         { _id: 1, name: "python" },
+    //         { _id: 2, name: "MySQL" },
+    //         { _id: 3, name: "Java" },
+    //     ],
+    //     author: "John Doe",
+    //     upvotes: 10,
+    //     views: 100,
+    //     answers: 2,
+    //     createdAt: "2021-09-01T12:00:00.000z",
+    // },
+];
 
 const Home = () => {
     return (
@@ -38,6 +71,13 @@ const Home = () => {
                 />
             </div>
             <HomeFilters />
+            <div className="mt-10 flex w-full flex-col gap-6">
+                {questions.length > 0 ? (
+                    questions.map((question) => <Card question={question} />)
+                ) : (
+                    <NoResult />
+                )}
+            </div>
         </>
     );
 };
