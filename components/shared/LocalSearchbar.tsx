@@ -1,8 +1,7 @@
 "use client";
+import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import React from "react";
-import { Input } from "@/components/ui/input";
-import Link from "next/link";
 
 interface CustomInputProps {
     route: string;
@@ -12,7 +11,7 @@ interface CustomInputProps {
     otherClasses: string;
 }
 
-const GlobalSearch = ({
+const LocalSearchbar = ({
     route,
     iconPosition,
     imgSrc,
@@ -53,4 +52,4 @@ const GlobalSearch = ({
     );
 };
 
-export default GlobalSearch;
+export default LocalSearchbar;
