@@ -5,7 +5,7 @@ import Link from "next/link";
 import React from "react";
 import Filter from "@/components/shared/Filter";
 import HomeFilters from "@/components/home/HomeFilters";
-import Card from "@/components/cards/Card";
+import QuestionCard from "@/components/cards/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
 
 const questions = [
@@ -23,7 +23,7 @@ const questions = [
             picture: "https://example.com/path/to/picture.jpg",
         },
         upvotes: 150,
-        views: 1200,
+        views: 120000,
         answers: [
             {
                 text: "TypeScript adds static types and provides better tooling.",
@@ -34,15 +34,15 @@ const questions = [
                 authorId: "a3",
             },
         ],
-        createdAt: new Date("2023-01-10"),
+        createdAt: new Date("2024-01-10"),
     },
     {
         _id: 2,
         title: "What are the benefits of using async/await in JavaScript?",
         tags: [
-            { _id: 104, name: "Async" },
-            { _id: 105, name: "Await" },
-            { _id: 106, name: "JavaScript" },
+            { id: 104, name: "Async" },
+            { id: 105, name: "Await" },
+            { id: 106, name: "JavaScript" },
         ],
         author: {
             _id: "b1",
@@ -74,7 +74,7 @@ const Home = () => {
                 </h1>
 
                 <Link
-                    href={"/askquestion"}
+                    href={"/ask-question"}
                     className="flex justify-end max-sm:w-full"
                 >
                     <Button className="primary-gradient min-h-[46px] px-4 py-3 !text-light-900">
@@ -99,12 +99,27 @@ const Home = () => {
             <HomeFilters />
             <div className="mt-10 flex w-full flex-col gap-6">
                 {questions.length > 0 ? (
-                    questions.map((question) => <Card question={question} />)
+                    questions.map((question) => (
+                        <div key={question._id}>
+                            <QuestionCard
+                                key={question._id}
+                                _id={question._id}
+                                title={question.title}
+                                // TODO: Check this type error
+                                tags={question.tags}
+                                author={question.author}
+                                upvotes={question.upvotes}
+                                views={question.views}
+                                answers={question.answers}
+                                createdAt={question.createdAt}
+                            />
+                        </div>
+                    ))
                 ) : (
                     <NoResult
                         title={"There is no Question to Show"}
                         description={
-                            "Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion. our query could be the next big thing others learn from. Get involved! 💡"
+                            "Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion. Your query could be the next big thing others learn from. Get involved! 💡"
                         }
                         link={"/ask-question"}
                         linkTitle={"Ask a Question"}
