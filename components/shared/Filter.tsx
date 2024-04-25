@@ -31,8 +31,8 @@ const Filter = ({ filters, otherClasses, containerClasses }: FilterProps) => {
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup>
-                        {filters.map((item) => (
-                            <SelectItem key={item.value} value={item.value}>
+                        {filters.map((item, index) => (
+                            <SelectItem key={index} value={item.value}>
                                 {item.name}
                             </SelectItem>
                         ))}

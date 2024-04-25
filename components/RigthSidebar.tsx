@@ -6,28 +6,28 @@ import { Tag } from "@/types";
 
 const popularTags: Tag[] = [
     {
-        id: 1,
-        tagName: "javascript",
+        _id: "1",
+        name: "javascript",
         totalQuestions: 50,
     },
     {
-        id: 2,
-        tagName: "python",
+        _id: "2",
+        name: "python",
         totalQuestions: 4,
     },
     {
-        id: 3,
-        tagName: "java",
+        _id: "3",
+        name: "java",
         totalQuestions: 41,
     },
     {
-        id: 4,
-        tagName: "c#",
+        _id: "4",
+        name: "c#",
         totalQuestions: 30,
     },
     {
-        id: 5,
-        tagName: "ruby",
+        _id: "5",
+        name: "ruby",
         totalQuestions: 300,
     },
 ];
@@ -57,11 +57,11 @@ const RigthSidebar = () => {
             <div className="">
                 <h3 className="h3-bold text-dark200_light900">Top Questions</h3>
                 <div className="mt-7 flex w-full flex-col gap-[30px]">
-                    {topQuestions.map((question) => {
+                    {topQuestions.map((question, index) => {
                         return (
                             <Link
                                 href={`/questions/${question.id}`}
-                                key={question.id}
+                                key={index}
                                 className="flex cursor-pointer items-center justify-between gap-7"
                             >
                                 <p className="body-medium text-dark500_light700">
@@ -82,15 +82,15 @@ const RigthSidebar = () => {
             <div className="mt-16">
                 <h3 className="h3-bold text-dark200_light900">Popular Tags</h3>
                 <div className="mt-7 flex flex-col gap-4">
-                    {popularTags.map((tag) => {
-                        return (
-                            <RenderTag
-                                key={tag.id}
-                                tag={tag}
-                                showCount={true}
-                            />
-                        );
-                    })}
+                    {popularTags.map((tag, index) => (
+                        <RenderTag
+                            _id={tag._id}
+                            name={tag.name}
+                            totalQuestions={tag.totalQuestions}
+                            showCount
+                            key={index}
+                        />
+                    ))}
                 </div>
             </div>
         </section>

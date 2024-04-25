@@ -99,8 +99,8 @@ const Home = () => {
             <HomeFilters />
             <div className="mt-10 flex w-full flex-col gap-6">
                 {questions.length > 0 ? (
-                    questions.map((question) => (
-                        <div key={question._id}>
+                    questions.map((question, index) => (
+                        <div key={index}>
                             <QuestionCard
                                 key={question._id}
                                 _id={question._id}
