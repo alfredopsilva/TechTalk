@@ -41,7 +41,7 @@ const Question = ({ mongoUserId }: QuestionProps) => {
     const editorRef = useRef(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
-    const pathName = usePathname();
+    const pathname = usePathname();
 
     // Form definition using zodResolver and react-hook-form
     const form = useForm<z.infer<typeof QuestionsSchema>>({
@@ -63,6 +63,7 @@ const Question = ({ mongoUserId }: QuestionProps) => {
                 content: values.explanation,
                 tags: values.tags,
                 author: JSON.parse(mongoUserId),
+                path: pathname,
             });
 
             //Redirects user to homepage
