@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { QuestionsSchema } from "@/lib/validations";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
+import { createQuestion } from "@/lib/actions/question.action";
 
 const type = "edit";
 
@@ -35,12 +36,13 @@ const Question = () => {
     });
 
     // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof QuestionsSchema>) {
+    async function onSubmit(values: z.infer<typeof QuestionsSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         setIsSubmitting(true);
         try {
             //Make API call
+            await createQuestion({});
         } catch (error) {
         } finally {
             setIsSubmitting(false);
