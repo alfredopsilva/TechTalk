@@ -39,9 +39,9 @@ const Theme = () => {
                     )}
                 </MenubarTrigger>
                 <MenubarContent className="absolute -right-12 mt-3 min-w-[120px] rounded border py-2 dark:border-dark-400 dark:bg-dark-300">
-                    {themes.map((item) => (
+                    {themes.map((item, index) => (
                         <MenubarItem
-                            key={item.value}
+                            key={index}
                             onClick={() => {
                                 setMode(item.value);
                                 if (item.value !== "system") {

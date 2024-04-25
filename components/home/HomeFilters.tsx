@@ -8,9 +8,9 @@ const HomeFilters = () => {
     const active = "recommended";
     return (
         <div className="mt-10 hidden flex-wrap gap-3  md:flex ">
-            {HomePageFilters.map((item) => (
+            {HomePageFilters.map((item, index) => (
                 <Button
-                    key={item.value}
+                    key={index}
                     onClick={() => {}}
                     className={` body-medium rounded-lg px-6 py-3 capitalize shadow-none ${
                         active === item.value
