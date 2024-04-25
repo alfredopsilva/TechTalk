@@ -1,9 +1,14 @@
 "use client";
+// React imports
 import React, { useRef, useState } from "react";
+
+// Third-party library imports
 import { Editor } from "@tinymce/tinymce-react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+
+// Custom component imports
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -15,17 +20,30 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { QuestionsSchema } from "@/lib/validations";
 import { Badge } from "../ui/badge";
+
+// Next.js imports
 import Image from "next/image";
+import { useRouter, usePathname } from "next/navigation";
+
+// Custom utility/function imports
+import { QuestionsSchema } from "@/lib/validations";
 import { createQuestion } from "@/lib/actions/question.action";
 
-const type = "edit";
+const type = "create";
 
-const Question = () => {
+interface QuestionProps {
+    mongoUserId: string;
+}
+
+// COMPONENT
+const Question = ({ mongoUserId }: QuestionProps) => {
     const editorRef = useRef(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    // 1. Define your form.
+    const router = useRouter();
+    const pathName = usePathname();
+
+    // Form definition using zodResolver and react-hook-form
     const form = useForm<z.infer<typeof QuestionsSchema>>({
         resolver: zodResolver(QuestionsSchema),
         defaultValues: {
@@ -35,20 +53,31 @@ const Question = () => {
         },
     });
 
-    // 2. Define a submit handler.
+    // OnSubmit Handler
     async function onSubmit(values: z.infer<typeof QuestionsSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
         setIsSubmitting(true);
         try {
-            //Make API call
-            await createQuestion({});
+            //Creates a question object to be saved into DB.
+            await createQuestion({
+                title: values.title,
+                content: values.explanation,
+                tags: values.tags,
+                author: JSON.parse(mongoUserId),
+            });
+
+            //Redirects user to homepage
+            router.push("/");
         } catch (error) {
+            console.log(
+                "This error happened while creating a question ",
+                error
+            );
         } finally {
             setIsSubmitting(false);
         }
-        console.log(values);
     }
+
+    // Function to handle Tag 's input insertion.
     const handleInputKeyDown = (
         e: React.KeyboardEvent<HTMLInputElement>,
         field: any
@@ -76,17 +105,20 @@ const Question = () => {
         }
     };
 
+    // Function to handle the removel of a tag when clicked into close img.
     const handleTagRemove = (tag: string, field: any) => {
         const tags = field.value.filter((item: string) => item !== tag);
         form.setValue("tags", tags);
     };
 
+    // Main Form
     return (
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="flex w-full flex-col gap-10"
             >
+                {/* // Title Field */}
                 <FormField
                     control={form.control}
                     name="title"
@@ -110,6 +142,8 @@ const Question = () => {
                         </FormItem>
                     )}
                 />
+
+                {/* Explanation / Content Field. */}
                 <FormField
                     control={form.control}
                     name="explanation"
@@ -169,6 +203,8 @@ const Question = () => {
                         </FormItem>
                     )}
                 />
+
+                {/* Tags */}
                 <FormField
                     control={form.control}
                     name="tags"
