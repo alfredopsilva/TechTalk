@@ -3,6 +3,15 @@
 import error from "next/error";
 import User from "../database/user.model";
 import { connectToDatabase } from "../mongoose";
+import {
+    CreateUserParams,
+    DeleteUserParams,
+    UpdateUserParams,
+} from "./shared.types";
+import { connect } from "http2";
+import { revalidatePath } from "next/cache";
+import console from "console";
+import Question from "../database/question.model";
 
 export async function getUserById(params: any) {
     try {
@@ -13,4 +22,44 @@ export async function getUserById(params: any) {
     } catch (error) {
         console.log(error);
     }
+}
+
+export async function createUser(userData: CreateUserParams) {
+    try {
+        connectToDatabase();
+        const newUser = await User.create(userData);
+        return newUser;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function updateUser(params: UpdateUserParams) {
+    try {
+        connectToDatabase();
+
+        const { clerkId, updateData, path } = params;
+        await User.findOneAndUpdate({ clerkId }, updateData, { new: true });
+        revalidatePath(path);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function deleteUser(params: DeleteUserParams) {
+    connectToDatabase();
+
+    const { clerkId } = params;
+    const user = await User.findOneAndDelete({ clerkId });
+
+    if (!user) throw new Error("User not found!");
+
+    const userQuestionsIds = await Question.find({ author: user._id }).distinct(
+        "_id"
+    );
+
+    await Question.deleteMany({ author: user._id });
+
+    const deletedUser = await User.findByIdAndDelete(user._id);
+    return deleteUser;
 }
