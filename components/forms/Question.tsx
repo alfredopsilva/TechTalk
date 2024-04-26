@@ -267,15 +267,18 @@ const Question = ({ mongoUserId }: QuestionProps) => {
                     className={`primary-gradient w-fit `}
                     disabled={isSubmitting}
                 >
-                    {isSubmitting ? (
-                        <>{type === "edit" ? " Editing" : "Posting"} </>
+                    {/* FIXME: Fix this logic */}
+                    Ask a question
+                    {/* {isSubmitting ? (
+        
+                        <>
+                            {type === "edit" ? " Editing" : "Posting"} 
+                        </>
                     ) : (
                         <>
-                            {type === "edit"
-                                ? "Edit Question"
-                                : " Ask a Question"}
+                            {type === "create" ? "Edit Question" : " Ask a Question"}
                         </>
-                    )}
+                    )} */}
                 </Button>
             </form>
         </Form>
