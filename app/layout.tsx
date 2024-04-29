@@ -21,9 +21,6 @@ export const metadata: Metadata = {
     title: "DevOverflow",
     description:
         "DevOverflow is the ultimate community-driven platform tailored for developers. Whether you're tackling bugs, exploring new technologies, or enhancing your coding skills, DevOverflow provides a dynamic space to ask questions, share knowledge, and connect with other tech enthusiasts. Our platform fosters a supportive environment where both novice and experienced developers can find detailed answers, participate in discussions, and contribute to a growing repository of programming wisdom. Join DevOverflow today and be part of a thriving network that propels your coding journey forward!",
-    icons: {
-        icon: "/assets/images/site-logo.svg",
-    },
 };
 
 export default function RootLayout({
