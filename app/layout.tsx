@@ -18,9 +18,12 @@ const spaceGrotesk = Space_Grotesk({
     variable: "--font-spaceGrotesk",
 });
 export const metadata: Metadata = {
-    title: "DevOverflow",
+    title: "DevFlow",
     description:
-        "DevOverflow is the ultimate community-driven platform tailored for developers. Whether you're tackling bugs, exploring new technologies, or enhancing your coding skills, DevOverflow provides a dynamic space to ask questions, share knowledge, and connect with other tech enthusiasts. Our platform fosters a supportive environment where both novice and experienced developers can find detailed answers, participate in discussions, and contribute to a growing repository of programming wisdom. Join DevOverflow today and be part of a thriving network that propels your coding journey forward!",
+        "A community-driven platform for asking and answering programming questions. Get help, share knowledge, and collaborate with developers from around the world. Explore topics in web development, mobile app development, algorithms, data structures, and more.",
+    icons: {
+        icon: "/assets/images/site-logo.svg",
+    },
 };
 
 export default function RootLayout({
