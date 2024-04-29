@@ -6,12 +6,25 @@ import { connectToDatabase } from "../mongoose";
 import {
     CreateUserParams,
     DeleteUserParams,
+    GetAllUsersParams,
     UpdateUserParams,
 } from "./shared.types";
 import { connect } from "http2";
 import { revalidatePath } from "next/cache";
 import console from "console";
 import Question from "../database/question.model";
+
+export async function getAllUsers(params: GetAllUsersParams) {
+    try {
+        connectToDatabase();
+        const { page = 1, pageSize = 20, filter, searchQuery } = params;
+        const users = await User.find({}).sort({ createdAt: -1 });
+        return { users };
+    } catch (error) {
+        console.log(error);
+        throw new Error("Failed to fetch users");
+    }
+}
 
 export async function getUserById(params: any) {
     try {
@@ -47,19 +60,24 @@ export async function updateUser(params: UpdateUserParams) {
 }
 
 export async function deleteUser(params: DeleteUserParams) {
-    connectToDatabase();
+    try {
+        connectToDatabase();
 
-    const { clerkId } = params;
-    const user = await User.findOneAndDelete({ clerkId });
+        const { clerkId } = params;
+        const user = await User.findOneAndDelete({ clerkId });
 
-    if (!user) throw new Error("User not found!");
+        if (!user) throw new Error("User not found!");
 
-    const userQuestionsIds = await Question.find({ author: user._id }).distinct(
-        "_id"
-    );
+        const userQuestionsIds = await Question.find({
+            author: user._id,
+        }).distinct("_id");
 
-    await Question.deleteMany({ author: user._id });
+        await Question.deleteMany({ author: user._id });
 
-    const deletedUser = await User.findByIdAndDelete(user._id);
-    return deleteUser;
+        const deletedUser = await User.findByIdAndDelete(user._id);
+        return deleteUser;
+    } catch (error) {
+        console.log(error);
+        throw new Error("Failed to delete user");
+    }
 }
