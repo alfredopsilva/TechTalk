@@ -1,4 +1,4 @@
-import { getTopInteractedTags } from "@/lib/actions/tag.action";
+import { getAllTags, getTopInteractedTags } from "@/lib/actions/tag.action";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -16,7 +16,7 @@ interface UserCardProps {
 }
 
 const UserCard = async ({ user }: UserCardProps) => {
-    const interactedTags = await getTopInteractedTags({ userId: user._id });
+    const allTags = await getAllTags({});
 
     return (
         <Link
@@ -41,9 +41,9 @@ const UserCard = async ({ user }: UserCardProps) => {
                     </p>
                 </div>
                 <div className="mt-5">
-                    {interactedTags.length > 0 ? (
+                    {allTags.length > 0 ? (
                         <div className="flex items-center gap-2">
-                            {interactedTags.map((tag) => (
+                            {allTags.map((tag) => (
                                 <RenderTag
                                     key={tag._id}
                                     _id={tag._id}
