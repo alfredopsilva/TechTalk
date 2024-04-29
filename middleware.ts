@@ -1,6 +1,6 @@
 import { withClerkMiddleware } from "@clerk/nextjs";
 
-export default withClerkMiddleware();
+export default withClerkMiddleware((auth, req) => {});
 
 export const config = {
     // The following matcher runs middleware on all routes
