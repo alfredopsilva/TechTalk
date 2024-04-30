@@ -1,9 +1,19 @@
-import { withClerkMiddleware } from "@clerk/nextjs";
+import { authMiddleware } from "@clerk/nextjs";
 
-export default withClerkMiddleware((auth, req) => {});
+export default authMiddleware({
+    publicRoutes: [
+        "/",
+        "/api/webhook",
+        "/question/:id",
+        "/tags",
+        "/tags/:id",
+        "/profile/:id",
+        "/community",
+        "/jobs",
+    ],
+    ignoredRoutes: ["/api/webhook", "/api/chatgpt"],
+});
 
 export const config = {
-    // The following matcher runs middleware on all routes
-    // except static assets.
     matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };
