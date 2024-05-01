@@ -29,6 +29,7 @@ import { useRouter, usePathname } from "next/navigation";
 // Custom utility/function imports
 import { QuestionsSchema } from "@/lib/validations";
 import { createQuestion } from "@/lib/actions/question.action";
+import { useTheme } from "@/context/ThemeProvider";
 
 const type = "create";
 
@@ -42,6 +43,8 @@ const Question = ({ mongoUserId }: QuestionProps) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
     const pathname = usePathname();
+
+    const { mode } = useTheme();
 
     // Form definition using zodResolver and react-hook-form
     const form = useForm<z.infer<typeof QuestionsSchema>>({
@@ -193,6 +196,12 @@ const Question = ({ mongoUserId }: QuestionProps) => {
                                             "alignright alignjustify | bullist numlist",
                                         content_style:
                                             "body { font-family:Inter; font-size:16px }",
+                                        skin:
+                                            mode === "dark"
+                                                ? "oxide-dark"
+                                                : "oxide",
+                                        content_css:
+                                            mode === "dark" ? "dark" : "light",
                                     }}
                                 />
                             </FormControl>
