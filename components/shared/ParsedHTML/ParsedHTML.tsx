@@ -12,7 +12,6 @@ const ParsedHTML = ({ data }: ParsedHTMLProps) => {
     useEffect(() => {
         Prism.highlightAll();
     }, []);
-    console.log(data);
     return <div>{parse(data)}</div>;
 };
 
