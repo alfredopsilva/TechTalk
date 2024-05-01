@@ -15,12 +15,17 @@ import { Editor } from "@tinymce/tinymce-react";
 import { useTheme } from "@/context/ThemeProvider";
 import { Button } from "../ui/button";
 import Image from "next/image";
+import { createAnswer } from "@/lib/actions/answer.action";
+import { usePathname } from "next/navigation";
 
-const handleCreateAnswer = () => {
-    console.log("Answer submitted");
-};
+interface AnswerProps {
+    questionId: string;
+    authorId: string;
+    question: string;
+}
 
-const Answer = () => {
+const Answer = ({ questionId, authorId, question }: AnswerProps) => {
+    const pathname = usePathname();
     const { mode } = useTheme();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const form = useForm<z.infer<typeof AnswerSchema>>({
@@ -29,6 +34,25 @@ const Answer = () => {
             answer: "",
         },
     });
+    const handleCreateAnswer = async (values: z.infer<typeof AnswerSchema>) => {
+        setIsSubmitting(true);
+
+        try {
+            await createAnswer({
+                content: values.answer,
+                author: JSON.parse(authorId),
+                question: JSON.parse(questionId),
+                path: pathname,
+            });
+
+            form.reset();
+
+            if (editorRef.current) {
+                const editor = editorRef.current as any;
+                editor.setContent("");
+            }
+        } catch (error) {}
+    };
     const editorRef = useRef<any>(null);
     return (
         <div>

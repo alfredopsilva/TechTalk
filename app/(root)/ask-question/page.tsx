@@ -2,12 +2,11 @@ import Question from "@/components/forms/Question";
 import { getUserById } from "@/lib/actions/user.action";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
-import React from "react";
+import React, { use } from "react";
 
 const AskQuestion = async () => {
     //Retrieving User Data from Clerk Auth.
     const { userId } = auth();
-
     //Validating if we have an valid user, in negative case redirects to login.
     if (!userId) redirect("/sign-in");
     const mongoUser = await getUserById({ userId });
