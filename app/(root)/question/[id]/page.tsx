@@ -3,6 +3,7 @@ import AllAnswers from "@/components/shared/AllAnswers";
 import Metric from "@/components/shared/Metric";
 import ParsedHTML from "@/components/shared/ParsedHTML/ParsedHTML";
 import RenderTag from "@/components/shared/RenderTag";
+import Votes from "@/components/shared/Votes";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { getUserById } from "@/lib/actions/user.action";
 import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
@@ -41,7 +42,9 @@ const page = async ({ searchParams, params }) => {
                             {result.author.name}
                         </p>
                     </Link>
-                    <div className="flex justify-end">VOTING</div>
+                    <div className="flex justify-end">
+                        <Votes />
+                    </div>
                 </div>
                 <h2 className="h2-semibold text-dark200_light900 mt-3.5">
                     {result.title}
