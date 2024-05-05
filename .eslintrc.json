@@ -1,12 +1,12 @@
 {
-    "extends": [
-        "next/core-web-vitals",
-        "standard",
-        "plugin:tailwindcss/recommended"
-    ],
-    "rules": {
-        "semi": "off",
-        "quotes": "off",
-        "indent": ["error", 4]
-    }
+  "extends": [
+    "next/core-web-vitals",
+    "standard",
+    "plugin:tailwindcss/recommended"
+  ],
+  "rules": {
+    "semi": "off",
+    "quotes": "off",
+    "indent": ["error", 2]
+  }
 }
