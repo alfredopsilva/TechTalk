@@ -7,6 +7,8 @@
   "rules": {
     "semi": "off",
     "quotes": "off",
-    "indent": ["error", 2]
+    "indent": ["error", 2],
+    "comma-dangle": "off",
+    "space-before-function-paren": "off"
   }
 }
