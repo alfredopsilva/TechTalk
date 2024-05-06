@@ -1,15 +1,14 @@
 "use server";
 
-import error from "next/error";
-import User from "../database/user.model";
+import User, { UserDocument } from "../database/user.model";
 import { connectToDatabase } from "../mongoose";
 import {
   CreateUserParams,
   DeleteUserParams,
   GetAllUsersParams,
+  ToggleSaveQuestionParams,
   UpdateUserParams,
 } from "./shared.types";
-import { connect } from "http2";
 import { revalidatePath } from "next/cache";
 import console from "console";
 import Question from "../database/question.model";
@@ -79,5 +78,41 @@ export async function deleteUser(params: DeleteUserParams) {
   } catch (error) {
     console.log(error);
     throw new Error("Failed to delete user");
+  }
+}
+
+export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
+  try {
+    connectToDatabase();
+    const { userId, questionId, path } = params;
+
+    const user: UserDocument | null = await User.findById(userId);
+    if (!user) throw new Error("User Not Found");
+
+    // TODO: Fix this type error
+    const isQuestionSaved = user.saved.includes(questionId);
+
+    if (isQuestionSaved) {
+      await User.findByIdAndUpdate(
+        userId,
+        {
+          $pull: { saved: questionId },
+        },
+        { new: true },
+      );
+    } else {
+      await User.findByIdAndUpdate(
+        userId,
+        {
+          $addToSet: { saved: questionId },
+        },
+        { new: true },
+      );
+    }
+
+    revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error occured to save question.");
   }
 }
