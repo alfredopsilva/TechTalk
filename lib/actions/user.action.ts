@@ -7,6 +7,7 @@ import {
   DeleteUserParams,
   GetAllUsersParams,
   GetSavedQuestionsParams,
+  GetUserByIdParams,
   ToggleSaveQuestionParams,
   UpdateUserParams,
 } from "./shared.types";
@@ -14,6 +15,7 @@ import { revalidatePath } from "next/cache";
 import console from "console";
 import Question from "../database/question.model";
 import Tag from "../database/tag.model";
+import Answer from "../database/answer.model";
 
 export async function getAllUsers(params: GetAllUsersParams) {
   try {
@@ -147,5 +149,22 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
   } catch (error) {
     console.log(error);
     throw new Error("Error processing getSavedQuestions");
+  }
+}
+
+export async function getUserInfo(params: GetUserByIdParams) {
+  try {
+    connectToDatabase();
+    const { userId } = params;
+    const user = await User.findOne({ clerkId: userId });
+    if (!user) throw new Error("User not Found");
+
+    const totalQuestions = await Question.countDocuments({ author: user._id });
+    const totalAnswers = await Answer.countDocuments({ author: user._id });
+    console.log(user);
+    return { user, totalQuestions, totalAnswers };
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error processing getUserInfo");
   }
 }
