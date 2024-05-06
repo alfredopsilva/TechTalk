@@ -23,13 +23,14 @@ export async function createQuestion(params: CreateQuestionParams) {
       content,
       author,
     });
+
     const tagDocuments = [];
     for (const tag of tags) {
       const existingTag = await Tag.findOneAndUpdate(
         { name: { $regex: new RegExp(`^${tag}$`, "i") } },
         {
           $setOnInsert: { name: tag },
-          $push: { question: question._id },
+          $push: { questions: question._id },
         },
         { upsert: true, new: true },
       );
