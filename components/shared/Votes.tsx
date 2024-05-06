@@ -1,5 +1,6 @@
 "use client";
 import { upvoteAnswer, downvoteAnswer } from "@/lib/actions/answer.action";
+import { viewQuestions } from "@/lib/actions/interaction.actions";
 import {
   downvoteQuestion,
   upvoteQuestion,
@@ -8,7 +9,7 @@ import { toggleSaveQuestion } from "@/lib/actions/user.action";
 import { formatAndDivideNumber } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface VotesProps {
   type: string;
@@ -86,6 +87,14 @@ const Votes = ({
       }
     }
   };
+
+  // NOTE: Maybe this system is not working properly, because it seems that is increasing by 2.
+  useEffect(() => {
+    viewQuestions({
+      questionId: JSON.parse(itemId),
+      userId: userId ? JSON.parse(userId) : undefined,
+    });
+  }, [itemId, userId, pathname, router]);
 
   return (
     <div className="flex gap-5">
