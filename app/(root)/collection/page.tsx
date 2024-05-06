@@ -1,28 +1,27 @@
 import LocalSearchbar from "@/components/shared/LocalSearchbar";
-import { Button } from "@/components/ui/button";
-import { HomePageFilters } from "@/contants/filters";
-import Link from "next/link";
+import { QuestionFilters } from "@/contants/filters";
 import React from "react";
 import Filter from "@/components/shared/Filter";
 import HomeFilters from "@/components/home/HomeFilters";
 import QuestionCard from "@/components/cards/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
-import { getQuestions } from "@/lib/actions/question.action";
+import { getSavedQuestions } from "@/lib/actions/user.action";
+import { auth } from "@clerk/nextjs";
 
 const Home = async () => {
-  const result = await getQuestions({});
+  const { userId } = auth();
 
+  if (!userId) return null;
+
+  const result = await getSavedQuestions({
+    clerkId: userId,
+  });
+
+  console.log(result);
   return (
     <>
-      <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
-        <h1 className="h1-bold text-dark100_light900">All To Questions</h1>
+      <h1 className="h1-bold text-dark100_light900">Saved Questions</h1>
 
-        <Link href={"/ask-question"} className="flex justify-end max-sm:w-full">
-          <Button className="primary-gradient min-h-[46px] px-4 py-3 !text-light-900">
-            Ask a Question
-          </Button>
-        </Link>
-      </div>
       <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
         <LocalSearchbar
           route="/"
@@ -32,13 +31,14 @@ const Home = async () => {
           imgSrc="/assets/icons/search.svg"
         />
         <Filter
-          filters={HomePageFilters}
+          filters={QuestionFilters}
           otherClasses="min-h-[56px] sm:min-w-[170px]"
           containerClasses="hidden max-md:flex"
         />
       </div>
       <HomeFilters />
       <div className="mt-10 flex w-full flex-col gap-6">
+        {/* TODO: Fix this type error; */}
         {result && result.questions.length > 0 ? (
           result.questions.map((question, index) => (
             <div key={index}>
@@ -57,12 +57,12 @@ const Home = async () => {
           ))
         ) : (
           <NoResult
-            title={"There is no Question to Show"}
+            title={"There is no Saved Questions to Show"}
             description={
-              "Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion. Your query could be the next big thing others learn from. Get involved! 💡"
+              "🚀 It looks like you haven't saved any questions yet! 📝 Find topics that pique your interest and start saving. Your favorite queries could inspire new insights and ideas. Start exploring and save your first question now! 💡"
             }
-            link={"/ask-question"}
-            linkTitle={"Ask a Question"}
+            link={"/"}
+            linkTitle={"Save a Question"}
           />
         )}
       </div>
