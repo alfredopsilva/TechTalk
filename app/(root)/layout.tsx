@@ -1,22 +1,24 @@
-/* eslint-disable tailwindcss/classnames-order */
 import LeftSidebar from "@/components/LeftSidebar";
-import RigthSidebar from "@/components/RigthSidebar";
+import RightSidebar from "@/components/RigthSidebar";
 import NavBar from "@/components/shared/navbar/NavBar";
 import React from "react";
 
-const layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className="relative background-light850_dark100">
+    <main className="background-light850_dark100 relative">
       <NavBar />
       <div className="flex">
         <LeftSidebar />
-        <section className="flex min-h-screen flex-1 flex-col px-6 pb-6 pt-36 max-md:pb-14 sm:px-14 ">
+
+        <section className="flex min-h-screen flex-1 flex-col px-6 pb-6 pt-36 max-md:pb-14 sm:px-14">
           <div className="mx-auto w-full max-w-5xl">{children}</div>
         </section>
-        <RigthSidebar />
+
+        <RightSidebar />
       </div>
+      Toaster
     </main>
   );
 };
 
-export default layout;
+export default Layout;

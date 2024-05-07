@@ -17,7 +17,6 @@ const Page = async ({ params, searchParams }: URLProps) => {
   const { userId } = auth();
   const clerkId = userId;
 
-  console.log(userInfo);
   return (
     <>
       <div className="flex flex-col-reverse items-start justify-between sm:flex-row ">
@@ -91,7 +90,6 @@ const Page = async ({ params, searchParams }: URLProps) => {
         totalAnswers={userInfo.totalAnswers}
       />
       <div className="mt-10 flex gap-10">
-        {/* TODO: Layout is broking here, probably nested div. */}
         <Tabs defaultValue="top-posts" className="flex-1">
           <TabsList className="background-light800_dark400 min-h-[42px] p-1">
             <TabsTrigger value="top-posts" className="tab">
