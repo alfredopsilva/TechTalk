@@ -11,13 +11,12 @@ import { Button } from "./ui/button";
 const LeftSidebar = () => {
   const { signOut } = useClerk();
   const { userId } = useAuth();
+  const pathname = usePathname();
   if (!userId) return;
 
   const handleLogout = async () => {
     await signOut();
   };
-
-  const pathname = usePathname();
 
   return (
     <section className="background-light900_dark200 light-border custom-scrollbar sticky left-0 top-0 flex h-screen flex-col justify-between overflow-y-auto border-r px-6 pb-8 pt-36 shadow-light-300 dark:shadow-none max-sm:hidden lg:w-[266px]">
