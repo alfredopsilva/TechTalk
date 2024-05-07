@@ -17,7 +17,6 @@ const Home = async () => {
     clerkId: userId,
   });
 
-  console.log(result);
   return (
     <>
       <h1 className="h1-bold text-dark100_light900">Saved Questions</h1>

@@ -8,14 +8,16 @@ import {
   GetAllUsersParams,
   GetSavedQuestionsParams,
   GetUserByIdParams,
+  GetUserStatsParams,
   ToggleSaveQuestionParams,
   UpdateUserParams,
 } from "./shared.types";
 import { revalidatePath } from "next/cache";
 import console from "console";
-import Question from "../database/question.model";
+
 import Tag from "../database/tag.model";
 import Answer from "../database/answer.model";
+import Question from "../database/question.model";
 
 export async function getAllUsers(params: GetAllUsersParams) {
   try {
@@ -71,11 +73,11 @@ export async function deleteUser(params: DeleteUserParams) {
 
     if (!user) throw new Error("User not found!");
 
-    const userQuestionsIds = await Question.find({
+    const userQuestionsIds = await Answer.find({
       author: user._id,
     }).distinct("_id");
 
-    await Question.deleteMany({ author: user._id });
+    await Answer.deleteMany({ author: user._id });
 
     const deletedUser = await User.findByIdAndDelete(user._id);
     return deleteUser;
@@ -126,7 +128,7 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
     connectToDatabase();
 
     const { clerkId, page = 1, pageSize = 1, filter, searchQuery } = params;
-    const query: FilterQuery<typeof Question> = searchQuery
+    const query: FilterQuery<typeof Answer> = searchQuery
       ? { title: { $regex: new RegExp(searchQuery, "i") } }
       : {};
     const user = await User.findOne({ clerkId: clerkId }).populate({
@@ -159,12 +161,56 @@ export async function getUserInfo(params: GetUserByIdParams) {
     const user = await User.findOne({ clerkId: userId });
     if (!user) throw new Error("User not Found");
 
-    const totalQuestions = await Question.countDocuments({ author: user._id });
+    const totalQuestions = await Answer.countDocuments({ author: user._id });
     const totalAnswers = await Answer.countDocuments({ author: user._id });
     console.log(user);
     return { user, totalQuestions, totalAnswers };
   } catch (error) {
     console.log(error);
     throw new Error("Error processing getUserInfo");
+  }
+}
+
+export async function getUserQuestions(params: GetUserStatsParams) {
+  try {
+    connectToDatabase();
+
+    const { userId, page = 1, pageSize = 10 } = params;
+
+    const totalQuestions = await Question.countDocuments({
+      author: userId,
+    });
+
+    const userQuestions = await Question.find({ author: userId })
+      .sort({ views: -1, upvotes: -1 })
+      .populate("author", "_id clerkId name picture")
+      .populate("tags", "_id name");
+
+    return { totalQuestions, questions: userQuestions };
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error Processing getUserQuestions");
+  }
+}
+
+export async function getUserAnswers(params: GetUserStatsParams) {
+  try {
+    connectToDatabase();
+
+    const { userId, page = 1, pageSize = 10 } = params;
+
+    const totalAnswers = await Answer.countDocuments({
+      author: userId,
+    });
+
+    const userAnswers = await Answer.find({ author: userId })
+      .sort({ upvotes: -1 })
+      .populate("author", "_id clerkId name picture")
+      .populate("question", "_id title");
+
+    return { totalAnswers, answers: userAnswers };
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error Processing getUserAnswers");
   }
 }
