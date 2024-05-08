@@ -163,7 +163,6 @@ export async function getUserInfo(params: GetUserByIdParams) {
 
     const totalQuestions = await Answer.countDocuments({ author: user._id });
     const totalAnswers = await Answer.countDocuments({ author: user._id });
-    console.log(user);
     return { user, totalQuestions, totalAnswers };
   } catch (error) {
     console.log(error);
