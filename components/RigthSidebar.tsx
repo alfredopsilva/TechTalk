@@ -2,40 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import RenderTag from "./shared/RenderTag";
-import { Tag } from "@/types";
 import { getHotQuestions } from "@/lib/actions/question.action";
-
-const popularTags: Tag[] = [
-  {
-    _id: "1",
-    name: "javascript",
-    totalQuestions: 50,
-  },
-  {
-    _id: "2",
-    name: "python",
-    totalQuestions: 4,
-  },
-  {
-    _id: "3",
-    name: "java",
-    totalQuestions: 41,
-  },
-  {
-    _id: "4",
-    name: "c#",
-    totalQuestions: 30,
-  },
-  {
-    _id: "5",
-    name: "ruby",
-    totalQuestions: 300,
-  },
-];
+import { getPopularTags } from "@/lib/actions/tag.action";
 
 const RigthSidebar = async () => {
   const hotQuestions = await getHotQuestions();
-
+  const popularTags = await getPopularTags();
   return (
     <section className="background-light900_dark200 light-border custom-scrollbar sticky right-0 top-0 flex h-screen w-[350px] flex-col justify-between overflow-y-auto border-l px-6 pb-8 pt-36 shadow-light-300 dark:shadow-none max-xl:hidden">
       <div className="">
@@ -44,7 +16,7 @@ const RigthSidebar = async () => {
           {hotQuestions.map((question, index) => {
             return (
               <Link
-                href={`/questions/${question.id}`}
+                href={`/question/${question.id}`}
                 key={index}
                 className="flex cursor-pointer items-center justify-between gap-7"
               >
