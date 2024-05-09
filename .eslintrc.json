@@ -1,5 +1,6 @@
 {
-  "extends": ["next/core-web-vitals", "standard"],
+  "extends": ["next/core-web-vitals", "standard", "prettier"],
+  "plugins": ["prettier"],
   "rules": {
     "semi": "off",
     "quotes": "off",
