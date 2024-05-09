@@ -3,7 +3,7 @@ import { z } from "zod";
 export const ProfileSchema = z.object({
   name: z.string().min(5).max(50),
   username: z.string().min(5).max(50),
-  portfoliowebsite: z.string().url().optional(),
+  portfolioWebsite: z.string().url().optional(),
   location: z.string().min(5).max(50),
   bio: z.string().min(50).max(500).optional(),
 });

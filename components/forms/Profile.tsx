@@ -29,12 +29,13 @@ const Profile = ({ clerkId, user }: ProfileProps) => {
   const router = useRouter();
   const pathname = usePathname();
 
+  // BUG: Default value for portfolioWebsite is not being set.
   const form = useForm<z.infer<typeof ProfileSchema>>({
     resolver: zodResolver(ProfileSchema),
     defaultValues: {
       name: parsedUser.name || "",
       username: parsedUser.username || "",
-      portfoliowebsite: parsedUser.portfoliowebsite || "",
+      portfolioWebsite: parsedUser.portfoliowebsite || "",
       location: parsedUser.location || "",
       bio: parsedUser.bio || "",
     },
@@ -48,7 +49,7 @@ const Profile = ({ clerkId, user }: ProfileProps) => {
         updateData: {
           name: values.name,
           username: values.username,
-          portfolioWebsite: values.portfoliowebsite,
+          portfolioWebsite: values.portfolioWebsite,
           location: values.location,
           bio: values.bio,
         },
@@ -107,7 +108,7 @@ const Profile = ({ clerkId, user }: ProfileProps) => {
         />
         <FormField
           control={form.control}
-          name="portfoliowebsite"
+          name="portfolioWebsite"
           render={({ field }) => (
             <FormItem className="space-y-3.5">
               <FormLabel>Portfolio Link</FormLabel>
