@@ -57,6 +57,7 @@ export async function updateUser(params: UpdateUserParams) {
     connectToDatabase();
 
     const { clerkId, updateData, path } = params;
+    console.log(updateData);
     await User.findOneAndUpdate({ clerkId }, updateData, { new: true });
     revalidatePath(path);
   } catch (error) {
