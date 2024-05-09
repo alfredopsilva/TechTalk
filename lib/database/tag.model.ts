@@ -1,4 +1,4 @@
-import { Schema, model, models, Document, Model } from "mongoose";
+import { Schema, model, models, Document } from "mongoose";
 
 export interface TagDocument extends Document {
   name: string;
@@ -8,8 +8,6 @@ export interface TagDocument extends Document {
   createdOn: Date;
 }
 
-export type TagModel = Model<TagDocument>;
-
 const tagSchema = new Schema<TagDocument>({
   name: { type: String, required: true },
   description: { type: String, required: true },
@@ -18,6 +16,6 @@ const tagSchema = new Schema<TagDocument>({
   createdOn: { type: Date, default: Date.now },
 });
 
-const Tag: TagModel = models.Tag || model<TagDocument>("Tag", tagSchema);
+const Tag = models.Tag || model<TagDocument>("Tag", tagSchema);
 
 export default Tag;
