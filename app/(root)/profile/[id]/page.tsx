@@ -51,14 +51,6 @@ const Page = async ({ params, searchParams }: URLProps) => {
                 />
               )}
 
-              {userInfo.user.portfolioWebsite && (
-                <ProfileLink
-                  imgUrl="/assets/icons/link.svg"
-                  title={"Portfolio"}
-                  href={userInfo.user.portfolioWebsite}
-                />
-              )}
-
               <ProfileLink
                 imgUrl="/assets/icons/calendar.svg"
                 title={getJoinedDate(userInfo.user.createdAt)}
