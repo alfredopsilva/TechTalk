@@ -198,3 +198,17 @@ export async function editQuestion(params: EditQuestionParams) {
     throw new Error("Error during edit question proccess.");
   }
 }
+
+export async function getHotQuestions() {
+  try {
+    connectToDatabase();
+
+    const hotQuestions = await Question.find({})
+      .sort({ upvotes: -1, views: -1 })
+      .limit(5);
+    return hotQuestions;
+  } catch (error) {
+    console.log(`Error while retrieving hot questions from DB : ${error}`);
+    throw new Error("Error during get hot questions proccess.");
+  }
+}
