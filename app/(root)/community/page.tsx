@@ -1,7 +1,7 @@
 import UserCard from "@/components/cards/UserCard";
 import Filter from "@/components/shared/Filter";
 import LocalSearchbar from "@/components/shared/LocalSearchbar";
-import { HomePageFilters, UserFilters } from "@/contants/filters";
+import { UserFilters } from "@/contants/filters";
 import { getAllUsers } from "@/lib/actions/user.action";
 import { SearchParamsProps } from "@/types";
 import Link from "next/link";

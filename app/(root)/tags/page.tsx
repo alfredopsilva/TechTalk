@@ -1,16 +1,17 @@
 import TagCard from "@/components/cards/TagCard";
 import UserCard from "@/components/cards/UserCard";
+import Filter from "@/components/shared/Filter";
 import LocalSearchbar from "@/components/shared/LocalSearchbar";
 import NoResult from "@/components/shared/NoResult";
-import { UserFilters } from "@/contants/filters";
+import { TagFilters, UserFilters } from "@/contants/filters";
 import { getAllTags } from "@/lib/actions/tag.action";
 import { SearchParamsProps } from "@/types";
-import { Filter, Link } from "lucide-react";
 import React from "react";
 
 const page = async ({ searchParams }: SearchParamsProps) => {
   const result = await getAllTags({
     searchQuery: searchParams.q,
+    filter: searchParams.filter,
   });
 
   return (
@@ -26,7 +27,7 @@ const page = async ({ searchParams }: SearchParamsProps) => {
           imgSrc="/assets/icons/search.svg"
         />
         <Filter
-          filters={UserFilters}
+          filters={TagFilters}
           otherClasses="min-h-[56px] sm:min-w-[170px]"
           containerClasses=""
         />
