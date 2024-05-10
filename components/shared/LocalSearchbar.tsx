@@ -48,7 +48,7 @@ const LocalSearchbar = ({
       }
     }, 300);
     return () => clearTimeout(delayDebounce);
-  }, [search, route, pathname, searchParams, query]);
+  }, [search, router, pathname, searchParams, query]);
 
   return (
     // TODO: Set a max width for this compoenent;
