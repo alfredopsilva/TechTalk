@@ -1,7 +1,4 @@
-import React from "react";
-
-const GlobalFilters = () => {
-  return <div>GlobalFilters</div>;
-};
+"use client";
+import { GlobalFilters } from "./GlobalFilters.1";
 
 export default GlobalFilters;
