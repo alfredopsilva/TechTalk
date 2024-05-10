@@ -5,14 +5,11 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import GlobalFilters from "./GlobalFilters";
+import { globalSearch } from "@/lib/actions/general.action";
 const GlobalResult = () => {
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState([
-    { type: "question", id: 1, title: "Next.js question" },
-    { type: "tag", id: 1, title: "Nextjs" },
-    { type: "user", id: 1, title: "jsm" },
-  ]);
+  const [result, setResult] = useState([]);
 
   const global = searchParams.get("global");
   const type = searchParams.get("type");
@@ -21,17 +18,38 @@ const GlobalResult = () => {
     const fetchResult = async () => {
       setResult([]);
       setIsLoading(true);
+
       try {
+        const res = await globalSearch({ query: global, type });
+
+        setResult(JSON.parse(res));
       } catch (error) {
-        console.log(error);
+        console.error(error);
+        throw error;
       } finally {
         setIsLoading(false);
       }
     };
+
+    if (global) {
+      fetchResult();
+    }
   }, [global, type]);
 
   const renderLink = (type: string, id: string) => {
-    return "/";
+    /* eslint-disable */
+    switch (type) {
+      case "question":
+        return `/question/${id}`;
+      case "tag":
+        return `/tag/${id}`;
+      case "answer":
+        return `/question/${id}`;
+      case "user":
+        return `/user/${id}`;
+      default:
+        return "/";
+    }
   };
 
   return (
@@ -54,8 +72,8 @@ const GlobalResult = () => {
             {result.length > 0 ? (
               result.map((item, index) => (
                 <Link
-                  key={item.type + item.id + index} // Corrected key placement
-                  href={renderLink(item.type, "id")} // Assuming you need to pass item's type and id
+                  key={item.type + item.id + index}
+                  href={renderLink(item.type, item.id)}
                   className="flex w-full cursor-pointer items-start gap-3 px-5 py-5 hover:bg-light-700/50 dark:hover:bg-dark-500/50"
                 >
                   <Image
