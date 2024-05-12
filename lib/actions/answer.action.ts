@@ -11,6 +11,7 @@ import {
   GetAnswersParams,
 } from "./shared.types";
 import Interaction from "../database/interaction.model";
+import User from "../database/user.model";
 
 export async function createAnswer(params: CreateAnswerParams) {
   try {
@@ -26,9 +27,19 @@ export async function createAnswer(params: CreateAnswerParams) {
 
     await newAnswer.save();
 
-    await Question.findByIdAndUpdate(question, {
+    const questionObject = await Question.findByIdAndUpdate(question, {
       $push: { answers: newAnswer._id },
     });
+
+    await Interaction.create({
+      user: author,
+      action: "answer",
+      question,
+      answer: newAnswer._id,
+      tags: questionObject.tags,
+    });
+
+    await User.findByIdAndUpdate(author, { $inc: { reputation: 10 } });
 
     revalidatePath(path);
   } catch (error) {
@@ -104,6 +115,15 @@ export async function upvoteAnswer(params: AnswerVoteParams) {
     if (!answer) {
       throw new Error("Answer not found");
     }
+
+    await User.findByIdAndUpdate(userId, {
+      $inc: { reputation: hasupVoted ? -2 : 2 },
+    });
+
+    await User.findByIdAndUpdate(answer.author, {
+      $inc: { reputation: hasupVoted ? -10 : 10 },
+    });
+
     revalidatePath(path);
   } catch (error) {
     console.log(error);
@@ -136,6 +156,15 @@ export async function downvoteAnswer(params: AnswerVoteParams) {
     if (!answer) {
       throw new Error("Question not found");
     }
+
+    await User.findByIdAndUpdate(userId, {
+      $inc: { reputation: hasdownVoted ? -2 : 2 },
+    });
+
+    await User.findByIdAndUpdate(answer.author, {
+      $inc: { reputation: hasdownVotedVoted ? -10 : 10 },
+    });
+
     revalidatePath(path);
   } catch (error) {
     console.log(error);
@@ -164,3 +193,4 @@ export async function deleteAnswer(params: DeleteAnswerParams) {
     throw new Error("Error during delete question proccess.");
   }
 }
+// TODO: Increase reputation system for other actions, like when a question has x views, or when a new tag is created, or user achieve a mark of answers.
