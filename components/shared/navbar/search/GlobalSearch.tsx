@@ -31,6 +31,7 @@ const GlobalSearch = ({
   const [search, setSearch] = useState(query || "");
   const [isOpen, setIsOpen] = useState(false);
 
+  // Use Effect Responsible for close our result component when we click outside of it or in a result
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
       if (
