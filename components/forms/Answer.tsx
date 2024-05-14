@@ -28,6 +28,8 @@ const Answer = ({ questionId, authorId, question }: AnswerProps) => {
   const pathname = usePathname();
   const { mode } = useTheme();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmittingAi, setIsSubmittingAi] = useState(false);
+
   const form = useForm<z.infer<typeof AnswerSchema>>({
     resolver: zodResolver(AnswerSchema),
     defaultValues: {
@@ -54,6 +56,31 @@ const Answer = ({ questionId, authorId, question }: AnswerProps) => {
     } catch (error) {}
   };
   const editorRef = useRef<any>(null);
+
+  const generateAiAnswer = async () => {
+    if (!authorId) return;
+    setIsSubmittingAi(true);
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`,
+        { method: "POST", body: JSON.stringify({ question }) },
+      );
+
+      const aiAnswer = await response.json();
+      const formatedAiAnswer = aiAnswer.reply.replace(/\n/g, "<br />");
+      if (editorRef.current) {
+        const editor = editorRef.current as any;
+        editor.setContent(formatedAiAnswer);
+      }
+
+      // TODO: Add a toast notification
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSubmittingAi(false);
+    }
+  };
+
   return (
     <div>
       <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
@@ -61,7 +88,7 @@ const Answer = ({ questionId, authorId, question }: AnswerProps) => {
           Write your answer here
         </h3>
         <Button
-          onClick={() => {}}
+          onClick={generateAiAnswer}
           className="btn light-border-2 gap-1.5 rounded-md px-4 py-2.5 text-primary-500 shadow-none dark:text-primary-500"
         >
           <Image
@@ -71,7 +98,7 @@ const Answer = ({ questionId, authorId, question }: AnswerProps) => {
             height={12}
             className={"object-contain"}
           />
-          Generate AI Answer
+          {isSubmittingAi ? "Generating..." : "Generate AI Answer"}
         </Button>
       </div>
 
