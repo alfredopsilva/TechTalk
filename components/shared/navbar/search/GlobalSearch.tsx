@@ -85,7 +85,7 @@ const GlobalSearch = ({
         />
       )}
       <Input
-        className="paragraph-regular no-focus text-dark400_light700 placeholder background-light800_darkgradient border-none shadow-none outline-none"
+        className="paragraph-regular no-focus text-dark400_light700 placeholder bg-transparent border-none shadow-none outline-none"
         type="text"
         value={search}
         onChange={(e) => {

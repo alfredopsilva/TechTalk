@@ -29,7 +29,7 @@ const Answer = ({ questionId, authorId, question }: AnswerProps) => {
   const { mode } = useTheme();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmittingAi, setIsSubmittingAi] = useState(false);
-
+  console.log(mode);
   const form = useForm<z.infer<typeof AnswerSchema>>({
     resolver: zodResolver(AnswerSchema),
     defaultValues: {

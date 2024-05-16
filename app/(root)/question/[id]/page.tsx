@@ -42,6 +42,7 @@ const page = async ({ searchParams, params }) => {
             </p>
           </Link>
           <div className="flex justify-end">
+            {/* BUG: Align Votes component to the right */}
             <Votes
               type="question"
               itemId={JSON.stringify(result._id)}
